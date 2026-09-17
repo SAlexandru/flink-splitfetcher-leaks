@@ -1,4 +1,4 @@
-package com.example.flinksim;
+package com.example.splitfetcherleaks;
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.OpenContext;
@@ -58,7 +58,7 @@ public final class SimulationJob {
                     .uid("discard");
 
             long startedAt = System.nanoTime();
-            env.execute("flink-source-sim");
+            env.execute("flink-splitfetcher-leaks");
             long elapsedMillis = (System.nanoTime() - startedAt) / 1_000_000L;
 
             LOG.info("Simulation finished in {} ms", elapsedMillis);

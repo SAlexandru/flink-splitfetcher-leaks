@@ -1,4 +1,4 @@
-package com.example.flinksim;
+package com.example.splitfetcherleaks;
 
 import org.apache.flink.api.connector.source.SourceReaderContext;
 import org.apache.flink.configuration.Configuration;

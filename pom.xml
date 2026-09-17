@@ -5,15 +5,16 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.example</groupId>
-  <artifactId>flink-source-sim</artifactId>
+  <artifactId>flink-splitfetcher-leaks</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Flink Source Connector Simulator</name>
+  <name>Flink SplitFetcher Leaks</name>
   <description>
-    A self-contained simulation of a split-based Flink source connector: a random generator
-    produces events, events become splits assigned one at a time, each split gets its own
-    SplitFetcher, and readers synthesize random data instead of reading remote storage.
+    Reproduces the state a Flink source retains per SplitFetcher. A random generator produces
+    events, events become splits assigned one at a time, and readers synthesize records instead of
+    reading remote storage, so a connector that churns through fetchers can be observed without
+    any external infrastructure.
   </description>
 
   <properties>
@@ -71,7 +72,7 @@
                mini cluster deserializes the stream graph with a classloader that cannot see
                Flink's own operator classes, and submission fails with ClassNotFoundException. -->
           <executable>java</executable>
-          <commandlineArgs>-classpath %classpath com.example.flinksim.SimulationJob ${sim.args}</commandlineArgs>
+          <commandlineArgs>-classpath %classpath com.example.splitfetcherleaks.SimulationJob ${sim.args}</commandlineArgs>
         </configuration>
       </plugin>
     </plugins>

@@ -1,4 +1,4 @@
-package com.example.flinksim;
+package com.example.splitfetcherleaks;
 
 import org.apache.flink.connector.base.source.reader.RecordsBySplits;
 import org.apache.flink.connector.base.source.reader.RecordsWithSplitIds;

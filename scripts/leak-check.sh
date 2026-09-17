@@ -62,7 +62,7 @@ WATCH=(
   'GenericMetricGroup'
   'GenericValueMetricGroup'
   'QueryScopeInfo\$OperatorQueryScopeInfo'
-  'com\.example\.flinksim\.EventSplit$'
+  'com\.example\.splitfetcherleaks\.EventSplit$'
   'fetcher\.SplitFetcher$'
 )
 
@@ -97,7 +97,7 @@ java \
   "-Xmx${MAX_HEAP}" \
   "-XX:StartFlightRecording:name=sim,settings=profile,filename=${JFR_FILE},dumponexit=true,maxsize=500m,jdk.ObjectCount#enabled=true" \
   -cp "$CP" \
-  com.example.flinksim.SimulationJob maxEvents=-1 ${SIM_ARGS[@]+"${SIM_ARGS[@]}"} \
+  com.example.splitfetcherleaks.SimulationJob maxEvents=-1 ${SIM_ARGS[@]+"${SIM_ARGS[@]}"} \
   > "$LOG_FILE" 2>&1 &
 PID=$!
 

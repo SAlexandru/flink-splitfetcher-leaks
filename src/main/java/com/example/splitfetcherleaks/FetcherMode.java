@@ -1,4 +1,4 @@
-package com.example.flinksim;
+package com.example.splitfetcherleaks;
 
 /** How the reader allocates {@code SplitFetcher}s to splits. */
 public enum FetcherMode {

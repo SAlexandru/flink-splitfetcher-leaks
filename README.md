@@ -1,4 +1,4 @@
-# flink-source-sim
+# flink-splitfetcher-leaks
 
 A self-contained Flink job that reproduces the *architecture* of a split-based object-store source
 connector without needing the object store, a notification broker, or any other infrastructure.
@@ -50,7 +50,7 @@ cd ../flink
 mvn clean compile -pl flink-connectors/flink-connector-base \
   -DskipTests -Dfast -Pskip-webui-build,java21-target
 
-cd ../flink-source-sim
+cd ../flink-splitfetcher-leaks
 scripts/leak-check.sh -n patched -c ../flink/flink-connectors/flink-connector-base/target/classes
 ```
 
@@ -70,7 +70,7 @@ mvn org.codehaus.mojo:versions-maven-plugin:2.8.1:set \
 mvn clean install -DskipTests -Dfast -Pskip-webui-build,java21-target -T1C \
   -pl flink-connectors/flink-connector-base,flink-clients,flink-runtime,flink-streaming-java -am
 
-cd ../flink-source-sim
+cd ../flink-splitfetcher-leaks
 mvn exec:exec -Dflink.version=2.2.1-mypatch-SNAPSHOT
 scripts/leak-check.sh -v 2.2.1-mypatch-SNAPSHOT
 ```
