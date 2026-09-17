@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example</groupId>
+  <artifactId>flink-source-sim</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>Flink Source Connector Simulator</name>
+  <description>
+    A self-contained simulation of a split-based Flink source connector: a random generator
+    produces events, events become splits assigned one at a time, each split gets its own
+    SplitFetcher, and readers synthesize random data instead of reading remote storage.
+  </description>
+
+  <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Override to run against a Flink you built and installed into ~/.m2, e.g.
+         mvn -Dflink.version=2.2.1-mypatch-SNAPSHOT ... See the README. -->
+    <flink.version>2.2.1</flink.version>
+    <!-- Must match the slf4j-api Flink brings in, or the binding is ignored at runtime. -->
+    <slf4j.version>1.7.36</slf4j.version>
+    <!-- Simulation options, e.g. mvn exec:exec -Dsim.args="maxEvents=5000 queueCapacity=1" -->
+    <sim.args></sim.args>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.flink</groupId>
+      <artifactId>flink-streaming-java</artifactId>
+      <version>${flink.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.flink</groupId>
+      <artifactId>flink-connector-base</artifactId>
+      <version>${flink.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.flink</groupId>
+      <artifactId>flink-clients</artifactId>
+      <version>${flink.version}</version>
+    </dependency>
+    <!-- flink-streaming-java only declares flink-runtime as provided, but the operator classes
+         (SourceOperator, SinkWriterOperatorFactory, the split metric groups) live there, so a
+         standalone local job has to bring it in itself. -->
+    <dependency>
+      <groupId>org.apache.flink</groupId>
+      <artifactId>flink-runtime</artifactId>
+      <version>${flink.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <!-- exec:exec, not exec:java: the job has to run in its own JVM. Under exec:java the
+               mini cluster deserializes the stream graph with a classloader that cannot see
+               Flink's own operator classes, and submission fails with ClassNotFoundException. -->
+          <executable>java</executable>
+          <commandlineArgs>-classpath %classpath com.example.flinksim.SimulationJob ${sim.args}</commandlineArgs>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

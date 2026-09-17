@@ -1,0 +1,17 @@
+.*
+
+*.iml
+target
+
+!.editorconfig
+!.gitattributes
+!.gitignore
+!.github
+!.gitmodules
+!.mvn
+!.sdkmanrc
+
+spaas/generated
+
+**.pyc
+/_berg/
