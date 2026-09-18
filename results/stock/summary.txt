@@ -1,0 +1,3 @@
+t(s)   splits    fetchers  ConditionAndFlag       GenericMetricGroup     GenericValueMetricGroup OperatorQueryScopeInfo EventSplit             SplitFetcher          
+0      57487     60700     55402                  56                     1                      4                      14973                  1                     
+62     237861    251278    230606                 57                     2                      6                      17071                  1                     

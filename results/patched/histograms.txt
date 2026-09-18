@@ -1,0 +1,62 @@
+===== sample 1 at t=0s =====
+33210:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:         71867        9101304  [B (java.base@21.0.12)
+   2:         25592        3190880  [J (java.base@21.0.12)
+   3:         25244        2423424  org.apache.flink.runtime.metrics.TimerGauge
+   4:          1209        1966664  [Ljdk.internal.vm.FillerElement; (java.base@21.0.12)
+   5:         61328        1962496  java.util.HashMap$Node (java.base@21.0.12)
+   6:         69786        1674864  java.lang.String (java.base@21.0.12)
+   7:         10975        1297384  java.lang.Class (java.base@21.0.12)
+   8:         11327        1146776  [Ljava.lang.Object; (java.base@21.0.12)
+   9:          2496         957368  [Ljava.util.HashMap$Node; (java.base@21.0.12)
+  10:         22405         716960  java.util.concurrent.ConcurrentHashMap$Node (java.base@21.0.12)
+  11:          3559         693832  [I (java.base@21.0.12)
+  12:         27837         668088  java.util.ArrayList (java.base@21.0.12)
+  13:         15385         615400  java.util.LinkedHashMap$Entry (java.base@21.0.12)
+  14:         22114         530736  org.apache.pekko.dispatch.AbstractNodeQueue$Node
+  15:         21084         506016  org.apache.pekko.actor.LightArrayRevolverScheduler$TaskHolder
+  16:           271         440832  [Ljava.util.concurrent.ConcurrentHashMap$Node; (java.base@21.0.12)
+  17:            45         403016  [D (java.base@21.0.12)
+  18:          4364         384032  java.lang.reflect.Method (java.base@21.0.12)
+  19:         11287         361184  com.example.splitfetcherleaks.RandomEvent
+  20:         11287         270888  com.example.splitfetcherleaks.EventSplit
+  21:          5563         267024  java.lang.invoke.MemberName (java.base@21.0.12)
+  22:          6459         176056  [Ljava.lang.Class; (java.base@21.0.12)
+  23:          4280         171200  java.lang.invoke.MethodType (java.base@21.0.12)
+  24:         10499         167984  java.lang.Object (java.base@21.0.12)
+  25:            38         152168  [Ljava.nio.channels.SelectionKey; (java.base@21.0.12)
+  26:          4296         137472  jdk.internal.util.WeakReferenceKey (java.base@21.0.12)
+  27:          2057         131648  java.nio.DirectByteBuffer (java.base@21.0.12)
+===== sample 2 at t=61s =====
+33210:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:         80048        9359128  [B (java.base@21.0.12)
+   2:          1161        1965904  [Ljdk.internal.vm.FillerElement; (java.base@21.0.12)
+   3:         77983        1871592  java.lang.String (java.base@21.0.12)
+   4:         10976        1297496  java.lang.Class (java.base@21.0.12)
+   5:          2501        1153984  [Ljava.util.HashMap$Node; (java.base@21.0.12)
+   6:         11326        1146688  [Ljava.lang.Object; (java.base@21.0.12)
+   7:         23581         943240  java.util.LinkedHashMap$Entry (java.base@21.0.12)
+   8:         22390         716480  java.util.concurrent.ConcurrentHashMap$Node (java.base@21.0.12)
+   9:          3558         693816  [I (java.base@21.0.12)
+  10:         27172         652128  org.apache.pekko.dispatch.AbstractNodeQueue$Node
+  11:         26142         627408  org.apache.pekko.actor.LightArrayRevolverScheduler$TaskHolder
+  12:         19479         623328  com.example.splitfetcherleaks.RandomEvent
+  13:          1356         476448  [J (java.base@21.0.12)
+  14:         19478         467472  com.example.splitfetcherleaks.EventSplit
+  15:           271         440832  [Ljava.util.concurrent.ConcurrentHashMap$Node; (java.base@21.0.12)
+  16:         12861         411552  java.util.HashMap$Node (java.base@21.0.12)
+  17:            45         403016  [D (java.base@21.0.12)
+  18:          4364         384032  java.lang.reflect.Method (java.base@21.0.12)
+  19:          5565         267120  java.lang.invoke.MemberName (java.base@21.0.12)
+  20:          6459         176056  [Ljava.lang.Class; (java.base@21.0.12)
+  21:          4280         171200  java.lang.invoke.MethodType (java.base@21.0.12)
+  22:         10495         167920  java.lang.Object (java.base@21.0.12)
+  23:            38         152168  [Ljava.nio.channels.SelectionKey; (java.base@21.0.12)
+  24:          4281         136992  jdk.internal.util.WeakReferenceKey (java.base@21.0.12)
+  25:          2057         131648  java.nio.DirectByteBuffer (java.base@21.0.12)
+  26:          3806         121792  java.lang.invoke.LambdaForm$Name (java.base@21.0.12)
+  27:          1631         117432  java.lang.reflect.Field (java.base@21.0.12)

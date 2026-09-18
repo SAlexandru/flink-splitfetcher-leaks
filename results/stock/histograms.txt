@@ -1,0 +1,62 @@
+===== sample 1 at t=0s =====
+31977:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:         75627        9223400  [B (java.base@21.0.12)
+   2:         35911        4346776  [J (java.base@21.0.12)
+   3:         35562        3413952  org.apache.flink.runtime.metrics.TimerGauge
+   4:         81943        2622176  java.util.HashMap$Node (java.base@21.0.12)
+   5:          1640        2108128  [Ljdk.internal.vm.FillerElement; (java.base@21.0.12)
+   6:         73562        1765488  java.lang.String (java.base@21.0.12)
+   7:         55737        1337688  java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject (java.base@21.0.12)
+   8:         55401        1329624  org.apache.flink.connector.base.source.reader.synchronization.FutureCompletingBlockingQueue$ConditionAndFlag
+   9:         10958        1295344  java.lang.Class (java.base@21.0.12)
+  10:          2491        1153576  [Ljava.util.HashMap$Node; (java.base@21.0.12)
+  11:         11151        1142272  [Ljava.lang.Object; (java.base@21.0.12)
+  12:         38153         915672  java.util.ArrayList (java.base@21.0.12)
+  13:         19069         762760  java.util.LinkedHashMap$Entry (java.base@21.0.12)
+  14:         22399         716768  java.util.concurrent.ConcurrentHashMap$Node (java.base@21.0.12)
+  15:          3559         693960  [I (java.base@21.0.12)
+  16:         25381         609144  org.apache.pekko.dispatch.AbstractNodeQueue$Node
+  17:         24351         584424  org.apache.pekko.actor.LightArrayRevolverScheduler$TaskHolder
+  18:         14973         479136  com.example.splitfetcherleaks.RandomEvent
+  19:           271         440832  [Ljava.util.concurrent.ConcurrentHashMap$Node; (java.base@21.0.12)
+  20:            45         403016  [D (java.base@21.0.12)
+  21:          4365         384120  java.lang.reflect.Method (java.base@21.0.12)
+  22:         14973         359352  com.example.splitfetcherleaks.EventSplit
+  23:          5547         266256  java.lang.invoke.MemberName (java.base@21.0.12)
+  24:             1         221648  [Lorg.apache.flink.connector.base.source.reader.synchronization.FutureCompletingBlockingQueue$ConditionAndFlag;
+  25:          6457         176016  [Ljava.lang.Class; (java.base@21.0.12)
+  26:          4277         171080  java.lang.invoke.MethodType (java.base@21.0.12)
+  27:         10498         167968  java.lang.Object (java.base@21.0.12)
+===== sample 2 at t=62s =====
+31977:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:         77749        9295608  [B (java.base@21.0.12)
+   2:        230941        5542584  java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject (java.base@21.0.12)
+   3:        230605        5534520  org.apache.flink.connector.base.source.reader.synchronization.FutureCompletingBlockingQueue$ConditionAndFlag
+   4:          1587        2027056  [Ljdk.internal.vm.FillerElement; (java.base@21.0.12)
+   5:         75668        1816032  java.lang.String (java.base@21.0.12)
+   6:         10960        1295568  java.lang.Class (java.base@21.0.12)
+   7:          2501        1154040  [Ljava.util.HashMap$Node; (java.base@21.0.12)
+   8:         11150        1142160  [Ljava.lang.Object; (java.base@21.0.12)
+   9:             1         922528  [Lorg.apache.flink.connector.base.source.reader.synchronization.FutureCompletingBlockingQueue$ConditionAndFlag;
+  10:         21175         847000  java.util.LinkedHashMap$Entry (java.base@21.0.12)
+  11:          4592         838888  [J (java.base@21.0.12)
+  12:         22387         716384  java.util.concurrent.ConcurrentHashMap$Node (java.base@21.0.12)
+  13:          3558         693816  [I (java.base@21.0.12)
+  14:         19332         618624  java.util.HashMap$Node (java.base@21.0.12)
+  15:         17071         546272  com.example.splitfetcherleaks.RandomEvent
+  16:         18544         445056  org.apache.pekko.dispatch.AbstractNodeQueue$Node
+  17:           271         440832  [Ljava.util.concurrent.ConcurrentHashMap$Node; (java.base@21.0.12)
+  18:         17514         420336  org.apache.pekko.actor.LightArrayRevolverScheduler$TaskHolder
+  19:         17071         409704  com.example.splitfetcherleaks.EventSplit
+  20:          4244         407424  org.apache.flink.runtime.metrics.TimerGauge
+  21:            45         403016  [D (java.base@21.0.12)
+  22:          4364         384032  java.lang.reflect.Method (java.base@21.0.12)
+  23:          5549         266352  java.lang.invoke.MemberName (java.base@21.0.12)
+  24:          6456         175984  [Ljava.lang.Class; (java.base@21.0.12)
+  25:          4277         171080  java.lang.invoke.MethodType (java.base@21.0.12)
+  26:         10496         167936  java.lang.Object (java.base@21.0.12)
+  27:          6837         164088  java.util.ArrayList (java.base@21.0.12)
