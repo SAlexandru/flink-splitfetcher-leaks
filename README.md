@@ -48,6 +48,15 @@ Central, needing no local Flink install. Every build passes `clean`: Maven's inc
 otherwise keeps classes from whatever branch was built in that tree before, and the result links
 but dies at the first checkpoint.
 
+The Flink builds default Maven to a 4,096 MB heap when `MAVEN_OPTS` does not already contain an
+`-Xmx` setting. Each Maven command also has a 30-minute limit (using `timeout` or `gtimeout`) and
+runs with normal progress output, so a stalled build fails clearly instead of appearing silent
+forever. Both settings are overridable; set the timeout to `0` to disable it:
+
+```bash
+MAVEN_OPTS="-Xmx6g" FLINK_MAVEN_TIMEOUT_SECONDS=3600 scripts/run-pr.sh
+```
+
 ### The job on its own
 
 ```bash

@@ -31,6 +31,10 @@
 #   -t  run the PR's own connector-base unit tests before measuring
 #   -K  remove the worktree when done; the default keeps it, so re-runs skip the checkout
 #
+# Environment:
+#   MAVEN_OPTS                    Maven JVM options. Defaults to -Xmx4096m when no -Xmx is set.
+#   FLINK_MAVEN_TIMEOUT_SECONDS   Limit for each Flink Maven command, default 1800; 0 disables it.
+#
 # Examples:
 #   scripts/run-pr.sh -m smoke                      # fastest end-to-end check
 #   scripts/run-pr.sh                               # stock vs patched, 3 minutes per arm
@@ -38,6 +42,22 @@
 #   scripts/run-pr.sh -b 2.2.1 -- recordsPerEvent=200 queueCapacity=1
 #
 set -uo pipefail
+
+# Compiling Flink with Maven's small default heap can degrade into GC thrashing and look hung.
+# Preserve caller-supplied JVM options and heap choices, but give the build 4 GiB by default.
+case " ${MAVEN_OPTS:-} " in
+  *" -Xmx"*) ;;
+  *) MAVEN_OPTS="${MAVEN_OPTS:+$MAVEN_OPTS }-Xmx4096m" ;;
+esac
+export MAVEN_OPTS
+
+FLINK_MAVEN_TIMEOUT_SECONDS=${FLINK_MAVEN_TIMEOUT_SECONDS:-1800}
+case "$FLINK_MAVEN_TIMEOUT_SECONDS" in
+  ''|*[!0-9]*)
+    echo "FLINK_MAVEN_TIMEOUT_SECONDS must be a non-negative integer" >&2
+    exit 2
+    ;;
+esac
 
 PR=29218
 BASE=master
@@ -118,6 +138,16 @@ git -C "$FLINK_DIR" rev-parse --git-dir > /dev/null 2>&1 \
   || { echo "not a git repository: $FLINK_DIR" >&2; exit 1; }
 [ -n "$WORKTREE" ] || WORKTREE="$(cd "$FLINK_DIR/.." && pwd)/flink-pr$PR"
 WORK_DIR="$PROJECT_DIR/target/pr-$PR"
+
+FLINK_MAVEN_TIMEOUT_COMMAND=""
+if [ "$FLINK_MAVEN_TIMEOUT_SECONDS" -gt 0 ]; then
+  FLINK_MAVEN_TIMEOUT_COMMAND=$(command -v timeout 2>/dev/null \
+    || command -v gtimeout 2>/dev/null \
+    || true)
+  if [ -z "$FLINK_MAVEN_TIMEOUT_COMMAND" ]; then
+    echo "!! timeout/gtimeout is unavailable; Flink Maven commands will not have a time limit" >&2
+  fi
+fi
 
 # What a worktree was built from, kept in that worktree's own git admin directory: one stamp per
 # worktree, so alternating between bases reuses both; outside target/, so `mvn clean` here does
@@ -287,13 +317,29 @@ esac
 
 PL=$(IFS=,; echo "${MODULES[*]}")
 
+run_flink_maven() {
+  local maven_status
+  if [ -n "$FLINK_MAVEN_TIMEOUT_COMMAND" ]; then
+    "$FLINK_MAVEN_TIMEOUT_COMMAND" --kill-after=30s \
+      "${FLINK_MAVEN_TIMEOUT_SECONDS}s" \
+      mvn --batch-mode --no-transfer-progress "$@"
+  else
+    mvn --batch-mode --no-transfer-progress "$@"
+  fi
+  maven_status=$?
+  if [ "$maven_status" -eq 124 ]; then
+    echo "!! Maven timed out after ${FLINK_MAVEN_TIMEOUT_SECONDS}s" >&2
+  fi
+  return "$maven_status"
+}
+
 build_arm() { # $1 = commit, $2 = label
   echo "==> Building $PL at $(echo "$1" | cut -c1-11) ($2)"
   git -C "$WORKTREE" checkout --detach --quiet "$1" \
     || { echo "checkout of $1 failed" >&2; return 1; }
   # clean every time: Maven's incremental compiler otherwise keeps classes from whatever was
   # built here before, and the jar links but fails at runtime. See the README.
-  ( cd "$WORKTREE" && mvn -q -nsu clean compile -pl "$PL" \
+  ( cd "$WORKTREE" && run_flink_maven -nsu clean compile -pl "$PL" \
       -DskipTests -Dfast -Pskip-webui-build,java21-target ) \
     || { echo "build failed" >&2; return 1; }
   for m in "${MODULES[@]}"; do
@@ -313,7 +359,7 @@ if [ "$RUN_TESTS" -eq 1 ]; then
   echo "==> Running the PR's own tests in $PL"
   # -Dfast skips rat/checkstyle/spotless/enforcer, not tests. failIfNoSpecifiedTests matters
   # once -M names more than one module, since the filter will not match in all of them.
-  ( cd "$WORKTREE" && mvn -nsu test -pl "$PL" -Dfast -Pskip-webui-build,java21-target \
+  ( cd "$WORKTREE" && run_flink_maven -nsu test -pl "$PL" -Dfast -Pskip-webui-build,java21-target \
       -Dtest="$PR_TESTS" -Dsurefire.failIfNoSpecifiedTests=false ) \
     || { echo "!! the PR's tests failed; not measuring" >&2; exit 1; }
 fi
